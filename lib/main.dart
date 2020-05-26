@@ -92,14 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   fontFamily: "Poppins-Bold",
                   fontWeight: FontWeight.w600),
             ),
-            Text(
-              ".",
-              style: TextStyle(
-                color: Colors.redAccent,
-                fontSize: 50,
-                fontFamily: "Poppins-Bold",
-              ),
-            ),
+
           ],
         ),
       ),
@@ -215,14 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontFamily: "Poppins-Bold",
                   fontWeight: FontWeight.w600),
             ),
-            Text(
-              ".",
-              style: TextStyle(
-                color: Colors.redAccent,
-                fontSize: width * 0.08,
-                fontFamily: "Poppins-Bold",
-              ),
-            ),
+
           ],
         ),
         Spacer(),
@@ -260,10 +246,10 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          tab(0, "Dành cho bạn", "upcoming"),
-          tab(1, "Đang chiếu", "now_playing"),
-          tab(2, "Sắp chiếu", "upcoming"),
-          tab(3, "Phổ biến", "popular"),
+          tab(0, "For You", "upcoming"),
+          tab(1, "In Threaters", "now_playing"),
+          tab(2, "Upcomings", "upcoming"),
+          tab(3, "Popular", "popular"),
         ],
       ),
     );
