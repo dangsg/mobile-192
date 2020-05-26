@@ -1,5 +1,13 @@
 import 'dart:async';
 
+import 'package:MOVIES/block/authentication_bloc/authentication_bloc.dart';
+import 'package:MOVIES/block/authentication_bloc/authentication_event.dart';
+import 'package:MOVIES/block/authentication_bloc/authentication_state.dart';
+import 'package:MOVIES/data/repositoties/user_repositories.dart';
+import 'package:MOVIES/screens/DialogLogout.dart';
+import 'package:MOVIES/screens/Loading.dart';
+import 'package:MOVIES/screens/login.dart';
+import 'package:MOVIES/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,15 +22,48 @@ import 'package:MOVIES/screens/network.dart';
 import 'package:MOVIES/screens/search.dart';
 import 'package:shimmer/shimmer.dart';
 
-void main() => runApp(SplashHandler());
 
-class SplashHandler extends StatelessWidget {
+
+void main() {
+  final UserRepository userRepository = UserRepository();
+  runApp(
+    BlocProvider<AuthenticationBloc>(
+      create: (context) {
+        return AuthenticationBloc(userRepository: userRepository)
+          ..add(AppStarted());
+      },
+      child: App(userRepository: userRepository,),
+    ),
+  );
+}
+
+class App extends StatelessWidget {
+  final UserRepository userRepository;
+
+  App({Key key, @required this.userRepository}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "MOVIES.",
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationUninitialized) {
+            return SplashScreen();
+          }
+          if (state is AuthenticationAuthenticated) {
+            return MyApp();
+          }
+          if (state is AuthenticationUnauthenticated) {
+            return LoginPage(userRepository: userRepository);
+          }
+          if (state is AuthenticationLoading) {
+            return LoadingIndicator();
+          }
+          if (state is AuthenticationRegister){
+            return SignUp();
+          }
+        },
+      ),
     );
   }
 }
@@ -33,15 +74,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
 
-    Future.delayed(Duration(seconds: 3), () async {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyApp()));
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Movies",
+              "Review",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 50,
@@ -169,12 +202,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget appBar(width) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
+
         Row(
           children: <Widget>[
             Text(
-              "Movies",
+              "Review",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: width * 0.08,
@@ -191,6 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+        Spacer(),
         IconButton(
           icon: Icon(Icons.search),
           color: Colors.white,
@@ -200,6 +235,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 MaterialPageRoute(builder: (BuildContext context) {
               return SearchScreen();
             }));
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.power_settings_new),
+          color: Colors.white,
+          iconSize: width * 0.08,
+          onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (newContext){
+                      return DialogLogout();
+                    }
+                  );
           },
         )
       ],
@@ -212,9 +260,10 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          tab(0, "In Threaters", "now_playing"),
-          tab(1, "Upcomings", "upcoming"),
-          tab(2, "Popular", "popular"),
+          tab(0, "Dành cho bạn", "upcoming"),
+          tab(1, "Đang chiếu", "now_playing"),
+          tab(2, "Sắp chiếu", "upcoming"),
+          tab(3, "Phổ biến", "popular"),
         ],
       ),
     );

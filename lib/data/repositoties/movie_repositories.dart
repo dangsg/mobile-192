@@ -24,6 +24,7 @@ class MovieRepositoryImpl implements MovieRepository {
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
+      print(data);
 
       List<Results> movies = ApiResultModel.fromJson(data).results;
       return movies;
