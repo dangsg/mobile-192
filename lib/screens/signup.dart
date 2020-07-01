@@ -3,6 +3,7 @@ import 'package:MOVIES/block/authentication_bloc/authentication_event.dart';
 import 'package:MOVIES/block/signup_bloc/signup_bloc.dart';
 import 'package:MOVIES/block/signup_bloc/signup_event.dart';
 import 'package:MOVIES/block/signup_bloc/signup_state.dart';
+import 'package:MOVIES/screens/DialogLoanding.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ class SignUpstate extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
         _onSignUpButtonPressed() {
+
       BlocProvider.of<SignUpBloc>(context).add(
         SignUpButtonPressed(
           username: _usernameController.text,
@@ -138,9 +140,12 @@ class SignUpstate extends State<SignUp> {
                   padding: EdgeInsets.only(top: 20),
                   child: 
                   BlocListener<SignUpBloc,SignUpState>(listener: (context,state){
+                    
+                    
                     if(state is SignUpSuccess ){
+                      Navigator.pop(context);
                       Fluttertoast.showToast(
-                          msg: "Đăng ký thành công",
+                          msg: "Signup success",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIos: 1
@@ -153,8 +158,9 @@ class SignUpstate extends State<SignUp> {
 
                     }
                     else if(state is SignUpFailure){
+                      Navigator.pop(context);
                       Fluttertoast.showToast(
-                          msg: "Thông tin không hợp lệ",
+                          msg: "Signup fail",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIos: 1
@@ -163,8 +169,17 @@ class SignUpstate extends State<SignUp> {
                     
                   },
                   child:
-                  MaterialButton(
+                  RaisedButton(
                     onPressed: (){
+                                                                                                           showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (newContext){
+
+                        return DialogLoading(text: "Đang tạo tài khoản...",);
+                      
+                    }
+                  );
                           BlocProvider.of<SignUpBloc>(context).add(
         SignUpButtonPressed(
           username: _usernameController.text,
@@ -183,8 +198,8 @@ class SignUpstate extends State<SignUp> {
                     ),
                     color: Color(0xffff2d55),
                     elevation: 0,
-                    minWidth: 400,
-                    height: 50,
+                    // minWidth: 400,
+                    // height: 50,
                     textColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:MOVIES/block/authentication_bloc/authentication_event.dart';
 import 'package:MOVIES/block/authentication_bloc/authentication_state.dart';
 import 'package:MOVIES/data/repositoties/user_repositories.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
@@ -35,8 +36,14 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
+      if(event.token==null){
+
+        yield AuthenticationUnauthenticated();
+      }
+      else{
       await userRepository.persistToken(event.token);
       yield AuthenticationAuthenticated();
+      }
     }
 
     if (event is LoggedOut) {

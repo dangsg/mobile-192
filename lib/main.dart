@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     movieBloc = BlocProvider.of<MovieBloc>(context);
-    movieBloc.add(FetchMovieEvent(movieType: "now_playing"));
+    movieBloc.add(FetchMovieEvent(movieType: "recommend"));
     //movieBloc.add(FetchMovieEvent());
   }
 
@@ -246,8 +246,8 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          tab(0, "For You", "upcoming"),
-          tab(1, "In Threaters", "now_playing"),
+          tab(0, "For You", "recommend"),
+          tab(1, "In Threaters", "intheater"),
           tab(2, "Upcomings", "upcoming"),
           tab(3, "Popular", "popular"),
         ],

@@ -4,6 +4,7 @@ import 'package:MOVIES/block/authentication_bloc/authentication_bloc.dart';
 import 'package:MOVIES/block/authentication_bloc/authentication_event.dart';
 import 'package:MOVIES/block/logout_bloc/logout_event.dart';
 import 'package:MOVIES/block/logout_bloc/logout_state.dart';
+import 'package:MOVIES/data/repositoties/service.dart';
 import 'package:MOVIES/data/repositoties/user_repositories.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
@@ -23,10 +24,8 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
   @override
   Stream<LogoutState> mapEventToState(LogoutEvent event) async*{
     if (event is LogoutButtonPressed) {
-      
-
       yield LogoutLoading();
-
+      await Service.logout();
       try {
         
         authenticationBloc.add(LoggedOut());

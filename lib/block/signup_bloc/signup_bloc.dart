@@ -6,6 +6,7 @@ import 'package:MOVIES/block/login_bloc/login_event.dart';
 import 'package:MOVIES/block/login_bloc/login_state.dart';
 import 'package:MOVIES/block/signup_bloc/signup_event.dart';
 import 'package:MOVIES/block/signup_bloc/signup_state.dart';
+import 'package:MOVIES/data/repositoties/service.dart';
 import 'package:MOVIES/data/repositoties/user_repositories.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
@@ -26,15 +27,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Stream<SignUpState> mapEventToState(SignUpEvent event) async* {
     if (event is SignUpButtonPressed) {
       yield SignUpLoading();
-          Future.delayed(Duration(seconds: 2), () async {
-
-    });
+        
     if(event.password.isNotEmpty && event.repassword.isNotEmpty && event.username.isNotEmpty && event.password.compareTo(event.repassword)==0){
-        yield SignUpSuccess();
+            dynamic data=  await Service.signUp(event.username, event.password);
+              if(data!=null && data['IsSuccess']==1){
+                yield SignUpSuccess();
+              }
+              else{
+                yield SignUpFailure(error:"Tên đăng nhập hoặc mật khẩu không đúng");
+              }
     }
     else{
       yield SignUpFailure(error:"Thông tin đăng ký không hợp lệ");
     }
+
     
 
       // try {

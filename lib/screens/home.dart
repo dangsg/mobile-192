@@ -20,11 +20,7 @@ class Home extends StatelessWidget {
             ),
         itemCount: movies.length,
         itemBuilder: (BuildContext context, int index) {
-          final List<String> geners = [];
-
-          for (int i = 0; i < movies[index].genreIds.length; i++) {
-            geners.add((Genre.getGenre(movies[index].genreIds[i].toString())));
-          }
+          final List<String> geners = movies[index].genreIds.split("|");
 
           return Container(
             margin: EdgeInsets.all(4.0),
@@ -130,7 +126,7 @@ class Home extends StatelessWidget {
                     },
                     child: Hero(
                       tag:
-                          "https://image.tmdb.org/t/p/w1280${movies[index].id}",
+                          movies[index].posterPath,
                       child: Container(
                         alignment: Alignment.centerRight,
                         decoration: BoxDecoration(
@@ -140,13 +136,13 @@ class Home extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           child: kIsWeb
                               ? Image.network(
-                                  "https://image.tmdb.org/t/p/w1280${movies[index].posterPath}",
+                                  movies[index].posterPath,
                                   width: 145,
                                   fit: BoxFit.cover)
                               : CachedNetworkImage(
                                   width: 145,
                                   imageUrl:
-                                      "https://image.tmdb.org/t/p/w1280${movies[index].posterPath}",
+                                      movies[index].posterPath,
                                   fit: BoxFit.fill,
                                 ),
                         ),

@@ -7,12 +7,10 @@ class ApiResultModel {
   ApiResultModel({this.page, this.totalResults, this.totalPages, this.results});
 
   ApiResultModel.fromJson(Map<String, dynamic> json) {
-    page = json['page'];
-    totalResults = json['total_results'];
-    totalPages = json['total_pages'];
-    if (json['results'] != null) {
+
+    if (json['listmovie'] != null) {
       results = new List<Results>();
-      json['results'].forEach((v) {
+      json['listmovie'].forEach((v) {
         results.add(new Results.fromJson(v));
       });
     }
@@ -40,7 +38,7 @@ class Results {
   String backdropPath;
   String originalLanguage;
   String originalTitle;
-  List<int> genreIds;
+  String genreIds;
   String title;
   dynamic voteAverage;
   String overview;
@@ -63,20 +61,20 @@ class Results {
       this.releaseDate});
 
   Results.fromJson(Map<String, dynamic> json) {
-    popularity = double.parse(json['popularity'].toString());
-    voteCount = json['vote_count'];
+    popularity = json['popularity'];
+    voteCount = json['mean_rate'];
     video = json['video'];
-    posterPath = json['poster_path'];
+    posterPath ="https://mymobileassigment.herokuapp.com/media/"+ json['movie_logo'].replaceAll(' ','%20');
     id = json['id'];
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
-    genreIds = json['genre_ids'].cast<int>();
+    genreIds = json['genre'];
     title = json['title'];
-    voteAverage = json['vote_average'];
-    overview = json['overview'];
-    releaseDate = json['release_date'];
+    voteAverage = json['mean_rate'];
+    overview = json['story_line'];
+    releaseDate = json['date_public'];
   }
 
   Map<String, dynamic> toJson() {

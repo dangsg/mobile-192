@@ -1,3 +1,4 @@
+import 'package:MOVIES/data/repositoties/service.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:MOVIES/block/movie_bloc/movie_state.dart';
@@ -20,14 +21,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
     if (event is FetchMovieEvent) {
       yield MovieLoadingState();
-              List<Results> movies = await repository.getMovies(event.movieType);
+
+      try {
+              List<Results> movies = await Service.getlistfilm(event.movieType,30);
         yield MovieLoadedState(movies: movies);
-      // try {
-      //   List<Results> movies = await repository.getMovies(event.movieType);
-      //   yield MovieLoadedState(movies: movies);
-      // } catch (e) {
-      //   yield MovieErrorState(message: e.toString());
-      // }
+      } catch (e) {
+        yield MovieErrorState(message: e.toString());
+      }
     }
   }
 }

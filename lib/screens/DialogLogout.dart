@@ -26,7 +26,7 @@ class DialogLogoutState extends State<DialogLogout>{
       BlocListener<LogoutBloc,LogoutState>(listener: (context,state){
         if (state is LogoutSuccess){
                                   Fluttertoast.showToast(
-                          msg: "Đã đăng xuất",
+                          msg: "Logout success",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIos: 1);

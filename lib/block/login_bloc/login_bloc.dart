@@ -25,10 +25,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginButtonPressed) {
+      
       yield LoginLoading();
       if(event.username.isEmpty || event.password.isEmpty){
                               Fluttertoast.showToast(
-                          msg: "Đăng nhập thất bại",
+                          msg: " username or password are not empty",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIos: 1);
@@ -36,13 +37,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                           return;
       }
 
-
+    
       try {
         final token = await userRepository.authenticate(
           username: event.username,
           password: event.password,
         );
-
+      
         authenticationBloc.add(LoggedIn(token: token));
         yield LoginInitial();
       } catch (error) {

@@ -1,3 +1,4 @@
+import 'package:MOVIES/data/repositoties/service.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:MOVIES/block/search_block/search_event.dart';
@@ -21,7 +22,7 @@ class SearchMovieBloc extends Bloc<SearchEvent, SearchMovieState> {
     if (event is FetchMovieBySearchEvent) {
       yield SearchMovieLoadingState();
       try {
-        List<Results> movies = await repository.getMoviesBySearch(event.query);
+        List<Results> movies = await Service.getSearch(event.query);
         yield SearchMovieLoadedState(movies: movies);
       } catch (e) {
         yield SearchMovieErrorState(message: e.toString());
