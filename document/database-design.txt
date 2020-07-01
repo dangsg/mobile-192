@@ -1,0 +1,21 @@
+Table:
+
+1. User:
+- uid (number): User ID
+- username (string): Username
+- user_password (hash value): User Password 
+- user_rating_list (list(iid)): List of items which user have rated
+- recommended_list (list(iid, score)): List of recommended items for each user. Score is calculated by recommendation function.
+
+2. Item:
+- iid (number): Item ID
+- item_name (string): Name of item
+- item_descriptioin (string): Description of item
+- item_avg_rating (number): Averate rating point of item (from 1 to 5)
+- item_img (): Images of item
+
+3. Rating point:
+2D matrix:
+- Row: uid
+- Column: iid
+- Point: Rating point of user for item

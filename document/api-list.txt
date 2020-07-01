@@ -1,0 +1,47 @@
+API:
+
+1. signup(username, password):
+Params:
+- username: From user input 
+- password: From user input
+Return:
+- msg: Notify if sign up successfully of fail
+
+2. signin(username, password):
+Params:
+- username: From user input 
+- password: From user input 
+Return: 
+- msg: Notify if sign in successfully or fail
+- uid: User ID 
+
+3. signout(uid):
+Params:
+- uid: From Client
+Return:
+- msg: Notify if sign out successfully or fail
+
+4. show_items_list(uid):
+Description:
+- Show items for user. If user has logged in already, show recommendation list of items for user. Otherwise show list of trending items (based on highest average rating point).
+Params: 
+- uid: From Client
+Return:
+- list_iid: List of items (consist of iname, ipoint and thumbnail)
+
+5. show_item_detail(iid):
+Params:
+- iid: From Client
+Return:
+- iname: item_name
+- ides: item_descriptioin
+- ipoint: item_avg_rating
+- iimg: item_img
+
+6. rate_item(uid, iid, point):
+Params: 
+- uid: From Client
+- iid: From Client
+- point: From user input (from 1 to 5)
+Return:
+- msg: Notify if sign in successfully or fail
